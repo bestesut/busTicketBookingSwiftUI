@@ -1,6 +1,4 @@
-------------------------------------
-| English README.md is down below. |
-------------------------------------
+English README.md is down below. 
 
 # 🚌 Otobüs Bileti Satın Alma Uygulaması
 
