@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		000891CB2CAAE7BA00A62DF4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 000891CA2CAAE7BA00A62DF4 /* FirebaseAuth */; };
+		000891CD2CAAE7BA00A62DF4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 000891CC2CAAE7BA00A62DF4 /* FirebaseDatabase */; };
+		00853B052CA708AB003A6B00 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 00853B042CA708AB003A6B00 /* Lottie */; };
+		00BF24702CAC05C4007CEF03 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF246F2CAC05C4007CEF03 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00853AAF2CA6D880003A6B00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00853A962CA6D87F003A6B00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00853A9D2CA6D87F003A6B00;
+			remoteInfo = busTicketBooking;
+		};
+		00853AB92CA6D880003A6B00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00853A962CA6D87F003A6B00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00853A9D2CA6D87F003A6B00;
+			remoteInfo = busTicketBooking;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00853A9E2CA6D87F003A6B00 /* busTicketBooking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = busTicketBooking.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00853AAE2CA6D880003A6B00 /* busTicketBookingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = busTicketBookingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00853AB82CA6D880003A6B00 /* busTicketBookingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = busTicketBookingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		00853B022CA7088D003A6B00 /* Exceptions for "busTicketBooking" folder in "busTicketBookingTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				bus.json,
+			);
+			target = 00853AAD2CA6D880003A6B00 /* busTicketBookingTests */;
+		};
+		00853B032CA7088D003A6B00 /* Exceptions for "busTicketBooking" folder in "busTicketBookingUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				bus.json,
+			);
+			target = 00853AB72CA6D880003A6B00 /* busTicketBookingUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		00853AA02CA6D87F003A6B00 /* busTicketBooking */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				00853B022CA7088D003A6B00 /* Exceptions for "busTicketBooking" folder in "busTicketBookingTests" target */,
+				00853B032CA7088D003A6B00 /* Exceptions for "busTicketBooking" folder in "busTicketBookingUITests" target */,
+			);
+			path = busTicketBooking;
+			sourceTree = "<group>";
+		};
+		00853AB12CA6D880003A6B00 /* busTicketBookingTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = busTicketBookingTests;
+			sourceTree = "<group>";
+		};
+		00853ABB2CA6D880003A6B00 /* busTicketBookingUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = busTicketBookingUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00853A9B2CA6D87F003A6B00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000891CD2CAAE7BA00A62DF4 /* FirebaseDatabase in Frameworks */,
+				00BF24702CAC05C4007CEF03 /* FirebaseFirestore in Frameworks */,
+				00853B052CA708AB003A6B00 /* Lottie in Frameworks */,
+				000891CB2CAAE7BA00A62DF4 /* FirebaseAuth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00853AAB2CA6D880003A6B00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00853AB52CA6D880003A6B00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00853A952CA6D87F003A6B00 = {
+			isa = PBXGroup;
+			children = (
+				00853AA02CA6D87F003A6B00 /* busTicketBooking */,
+				00853AB12CA6D880003A6B00 /* busTicketBookingTests */,
+				00853ABB2CA6D880003A6B00 /* busTicketBookingUITests */,
+				00853A9F2CA6D87F003A6B00 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00853A9F2CA6D87F003A6B00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00853A9E2CA6D87F003A6B00 /* busTicketBooking.app */,
+				00853AAE2CA6D880003A6B00 /* busTicketBookingTests.xctest */,
+				00853AB82CA6D880003A6B00 /* busTicketBookingUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00853A9D2CA6D87F003A6B00 /* busTicketBooking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00853AC22CA6D880003A6B00 /* Build configuration list for PBXNativeTarget "busTicketBooking" */;
+			buildPhases = (
+				00853A9A2CA6D87F003A6B00 /* Sources */,
+				00853A9B2CA6D87F003A6B00 /* Frameworks */,
+				00853A9C2CA6D87F003A6B00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				00853AA02CA6D87F003A6B00 /* busTicketBooking */,
+			);
+			name = busTicketBooking;
+			packageProductDependencies = (
+				00853B042CA708AB003A6B00 /* Lottie */,
+				000891CA2CAAE7BA00A62DF4 /* FirebaseAuth */,
+				000891CC2CAAE7BA00A62DF4 /* FirebaseDatabase */,
+				00BF246F2CAC05C4007CEF03 /* FirebaseFirestore */,
+			);
+			productName = busTicketBooking;
+			productReference = 00853A9E2CA6D87F003A6B00 /* busTicketBooking.app */;
+			productType = "com.apple.product-type.application";
+		};
+		00853AAD2CA6D880003A6B00 /* busTicketBookingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00853AC52CA6D880003A6B00 /* Build configuration list for PBXNativeTarget "busTicketBookingTests" */;
+			buildPhases = (
+				00853AAA2CA6D880003A6B00 /* Sources */,
+				00853AAB2CA6D880003A6B00 /* Frameworks */,
+				00853AAC2CA6D880003A6B00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00853AB02CA6D880003A6B00 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				00853AB12CA6D880003A6B00 /* busTicketBookingTests */,
+			);
+			name = busTicketBookingTests;
+			packageProductDependencies = (
+			);
+			productName = busTicketBookingTests;
+			productReference = 00853AAE2CA6D880003A6B00 /* busTicketBookingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		00853AB72CA6D880003A6B00 /* busTicketBookingUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00853AC82CA6D880003A6B00 /* Build configuration list for PBXNativeTarget "busTicketBookingUITests" */;
+			buildPhases = (
+				00853AB42CA6D880003A6B00 /* Sources */,
+				00853AB52CA6D880003A6B00 /* Frameworks */,
+				00853AB62CA6D880003A6B00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00853ABA2CA6D880003A6B00 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				00853ABB2CA6D880003A6B00 /* busTicketBookingUITests */,
+			);
+			name = busTicketBookingUITests;
+			packageProductDependencies = (
+			);
+			productName = busTicketBookingUITests;
+			productReference = 00853AB82CA6D880003A6B00 /* busTicketBookingUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00853A962CA6D87F003A6B00 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					00853A9D2CA6D87F003A6B00 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					00853AAD2CA6D880003A6B00 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 00853A9D2CA6D87F003A6B00;
+					};
+					00853AB72CA6D880003A6B00 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 00853A9D2CA6D87F003A6B00;
+					};
+				};
+			};
+			buildConfigurationList = 00853A992CA6D87F003A6B00 /* Build configuration list for PBXProject "busTicketBooking" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 00853A952CA6D87F003A6B00;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				00853AFD2CA70845003A6B00 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				000891C92CAAE7BA00A62DF4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 00853A9F2CA6D87F003A6B00 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00853A9D2CA6D87F003A6B00 /* busTicketBooking */,
+				00853AAD2CA6D880003A6B00 /* busTicketBookingTests */,
+				00853AB72CA6D880003A6B00 /* busTicketBookingUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00853A9C2CA6D87F003A6B00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00853AAC2CA6D880003A6B00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00853AB62CA6D880003A6B00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00853A9A2CA6D87F003A6B00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00853AAA2CA6D880003A6B00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00853AB42CA6D880003A6B00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00853AB02CA6D880003A6B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00853A9D2CA6D87F003A6B00 /* busTicketBooking */;
+			targetProxy = 00853AAF2CA6D880003A6B00 /* PBXContainerItemProxy */;
+		};
+		00853ABA2CA6D880003A6B00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00853A9D2CA6D87F003A6B00 /* busTicketBooking */;
+			targetProxy = 00853AB92CA6D880003A6B00 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		00853AC02CA6D880003A6B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		00853AC12CA6D880003A6B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00853AC32CA6D880003A6B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"busTicketBooking/Preview Content\"";
+				DEVELOPMENT_TEAM = N7MQGS7MJR;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beste.busTicketBooking;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00853AC42CA6D880003A6B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"busTicketBooking/Preview Content\"";
+				DEVELOPMENT_TEAM = N7MQGS7MJR;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beste.busTicketBooking;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		00853AC62CA6D880003A6B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N7MQGS7MJR;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beste.busTicketBookingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/busTicketBooking.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/busTicketBooking";
+			};
+			name = Debug;
+		};
+		00853AC72CA6D880003A6B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N7MQGS7MJR;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beste.busTicketBookingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/busTicketBooking.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/busTicketBooking";
+			};
+			name = Release;
+		};
+		00853AC92CA6D880003A6B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N7MQGS7MJR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beste.busTicketBookingUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = busTicketBooking;
+			};
+			name = Debug;
+		};
+		00853ACA2CA6D880003A6B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N7MQGS7MJR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.beste.busTicketBookingUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = busTicketBooking;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00853A992CA6D87F003A6B00 /* Build configuration list for PBXProject "busTicketBooking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00853AC02CA6D880003A6B00 /* Debug */,
+				00853AC12CA6D880003A6B00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00853AC22CA6D880003A6B00 /* Build configuration list for PBXNativeTarget "busTicketBooking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00853AC32CA6D880003A6B00 /* Debug */,
+				00853AC42CA6D880003A6B00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00853AC52CA6D880003A6B00 /* Build configuration list for PBXNativeTarget "busTicketBookingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00853AC62CA6D880003A6B00 /* Debug */,
+				00853AC72CA6D880003A6B00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00853AC82CA6D880003A6B00 /* Build configuration list for PBXNativeTarget "busTicketBookingUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00853AC92CA6D880003A6B00 /* Debug */,
+				00853ACA2CA6D880003A6B00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		000891C92CAAE7BA00A62DF4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.2.0;
+			};
+		};
+		00853AFD2CA70845003A6B00 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		000891CA2CAAE7BA00A62DF4 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 000891C92CAAE7BA00A62DF4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		000891CC2CAAE7BA00A62DF4 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 000891C92CAAE7BA00A62DF4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		00853B042CA708AB003A6B00 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00853AFD2CA70845003A6B00 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		00BF246F2CAC05C4007CEF03 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 000891C92CAAE7BA00A62DF4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 00853A962CA6D87F003A6B00 /* Project object */;
+}
