@@ -44,9 +44,7 @@ class YolcularViewModel: ObservableObject {
                 "soyad": soyad.capitalized,
                 "cinsiyet": cinsiyet,
                 "email": email,
-                "dogumTarihi": formattedDateOfBirth ?? "",
-                "koltukNo": ""
-
+                "dogumTarihi": formattedDateOfBirth ?? ""
             ]) { error in
                 if let error = error {
                     print("Kullanıcı bilgileri Firestore'a eklenirken hata oluştu: \(error.localizedDescription)")
@@ -65,9 +63,10 @@ class YolcularViewModel: ObservableObject {
         auth.signIn(withEmail: email, password: password) { [weak self] result, error in
             if let error = error {
                 self?.errorMessage = error.localizedDescription
-            } else {
+            } else if let userId = result?.user.uid {
                 self?.isSignedIn = true
                 print("Kullanıcı başarıyla giriş yaptı: \(result?.user.email ?? "")")
+                self?.fetchUserData(userId: userId)
             }
         }
     }
@@ -75,7 +74,9 @@ class YolcularViewModel: ObservableObject {
     func signOut() {
         do {
             try auth.signOut()
-            self.isSignedIn = false
+            DispatchQueue.main.async {
+                self.isSignedIn = false
+            }
             print("Kullanıcı başarıyla çıkış yaptı.")
         } catch let signOutError as NSError {
             self.errorMessage = signOutError.localizedDescription
@@ -100,29 +101,18 @@ class YolcularViewModel: ObservableObject {
     
     // Verileri çekme
     func fetchUserData(userId: String) {
-        guard let userEmail = Auth.auth().currentUser?.email else {
-            self.errorMessage = "Kullanıcı oturumu açılmamış"
-            return
-        }
-        
-        db.collection("yolcular").whereField("email", isEqualTo: userEmail).getDocuments { (querySnapshot, error) in
+        db.collection("yolcular").document(userId).getDocument { (document, error) in
             if let error = error {
                 self.errorMessage = "Veri çekme hatası: \(error.localizedDescription)"
+            } else if let document = document, document.exists {
+                let data = document.data()
+                self.ad = data?["ad"] as? String ?? ""
+                self.soyad = data?["soyad"] as? String ?? ""
+                self.dogumTarihi = data?["dogumTarihi"] as? String ?? ""
+                self.cinsiyet = data?["cinsiyet"] as? String ?? ""
+                self.email = data?["email"] as? String ?? ""
             } else {
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    if let ad = data["ad"] as? String,
-                       let soyad = data["soyad"] as? String,
-                       let dogumTarihi = data["dogumTarihi"] as? String,
-                       let cinsiyet = data["cinsiyet"] as? String,
-                       let email = data["email"] as? String {
-                        self.ad = ad
-                        self.soyad = soyad
-                        self.dogumTarihi = dogumTarihi
-                        self.cinsiyet = cinsiyet
-                        self.email = email
-                    }
-                }
+                self.errorMessage = "Kullanıcı bulunamadı."
             }
         }
     }

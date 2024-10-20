@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct UserInfoPaymentView: View {
     @State private var firstName: String = ""
@@ -32,19 +33,23 @@ struct UserInfoPaymentView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         TextField("Ad", text: $firstName)
                             .textFieldStyle(CustomTextFieldStyle())
+                            .onReceive(Just(firstName)) { newValue in
+                                let filteredName = newValue.filter { $0.isLetter }
+                                if filteredName != newValue {
+                                    self.firstName = filteredName
+                                }
+                            }
                         TextField("Soyad", text: $lastName)
                             .textFieldStyle(CustomTextFieldStyle())
+                            .onReceive(Just(lastName)) { newValue in
+                                let filteredLastName = newValue.filter { $0.isLetter }
+                                if filteredLastName != newValue {
+                                    self.lastName = filteredLastName
+                                }
+                            }
                         TextField("E-mail", text: $email)
                             .autocapitalization(.none)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.secondarySystemBackground))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                            )
+                            .textFieldStyle(CustomTextFieldStyle())                            
                         HStack {
                             Text("Doğum Tarihi:")
                                 .foregroundStyle(.gray.opacity(0.8))
@@ -116,21 +121,6 @@ struct UserInfoPaymentView: View {
             }
         
         return true
-    }
-}
-
-struct CustomTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(.secondarySystemBackground))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-            )
     }
 }
 

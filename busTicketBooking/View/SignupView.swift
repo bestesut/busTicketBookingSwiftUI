@@ -25,8 +25,8 @@ struct SignupView : View {
     @State private var showAlert: Bool = false
     @State private var selectedGender: String = ""
     @State private var dateOfBirth: Date = Date()
-    @StateObject private var seferlerViewModel = SeferlerViewModel()
-    @StateObject private var yolcularViewModel = YolcularViewModel()
+    @ObservedObject private var seferlerViewModel = SeferlerViewModel()
+    @ObservedObject private var yolcularViewModel = YolcularViewModel()
     @State private var alertMessage: String = ""
     @State private var alertType: AlertType?
     
@@ -44,52 +44,38 @@ struct SignupView : View {
                             .padding(.bottom, 40)
                         // Kullanıcı adı alanı
                         TextField("E-mail", text: $email)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.secondarySystemBackground))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                            )
+                            .autocapitalization(.none)
+                            .textFieldStyle(CustomTextFieldStyle())
                             .padding(.horizontal)
                         
                         TextField("Ad", text: $name)
                             .textFieldStyle(CustomTextFieldStyle())
-                            .padding()
+                            .padding(.horizontal)
                         
                         TextField("Soyad", text: $surname)
-                            .padding()
+                            .padding(.horizontal)
                             .textFieldStyle(CustomTextFieldStyle())
                         
                         // Şifre alanı
                         SecureField("Parola", text: $password)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.secondarySystemBackground))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                            )
+                            .autocapitalization(.none)
+                            .textFieldStyle(CustomTextFieldStyle())
                             .padding(.horizontal)
                         
-                        HStack {
+                        HStack(alignment: .center, spacing: 20) {
                             Text("Doğum Tarihi:")
                                 .foregroundStyle(.gray.opacity(0.8))
-                                .padding(.trailing, 80)
+                                .padding(.trailing, 65)
                             DatePicker("Tarih Seçin", selection: $dateOfBirth, displayedComponents: [.date])
                                 .datePickerStyle(.automatic)
                                 .labelsHidden()
                                 .padding()
                         }
                         
-                        HStack {
+                        HStack(alignment: .center, spacing: 20) {
                             Text("Cinsiyet: ")
                                 .foregroundStyle(.gray.opacity(0.8))
-                                .padding(.trailing, 55)
+                                .padding(.trailing, 50)
                             Picker("Options", selection: $selectedGender) {
                                 Text("Kadın").tag("Kadın")
                                 Text("Erkek").tag("Erkek")

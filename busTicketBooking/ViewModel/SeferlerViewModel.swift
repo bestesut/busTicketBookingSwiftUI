@@ -7,11 +7,31 @@ class SeferlerViewModel: ObservableObject {
     @Published var seferler: [Seferler] = []
     @Published var filteredSeferler: [Seferler] = []
     private var database: DatabaseReference!
+    private var listeners: [String: DatabaseHandle] = [:]
     
     init() {
         database = Database.database().reference()
-//        addDummyData(koltukSayisi: 40, kalkis: "İstanbul", varis: "Ankara", saatKalkis: "07.00", saatVaris: "15.00", tarih: "15.10.2024", fiyat: 700, seferNo: "1", firma: "Kamil Koç", firmaFoto: "kamilkoc", koltukSira: 4)
+//        addDummyData(koltukSayisi: 40, kalkis: "İstanbul", varis: "Ankara", saatKalkis: "07.00", saatVaris: "15.00", tarih: "19.10.2024", fiyat: 700, seferNo: "1", firma: "Kamil Koç", firmaFoto: "kamilkoc", koltukSira: 4)
+//        addDummyData(koltukSayisi: 30, kalkis: "Adana", varis: "Adıyaman", saatKalkis: "10.00", saatVaris: "18.00", tarih: "19.10.2024", fiyat: 900, seferNo: "2", firma: "Metro", firmaFoto: "metro", koltukSira: 3)
         fetchSeferler()
+    }
+    
+    func addListener(for seferNo: String, completion: @escaping (Seferler) -> Void) {
+        let handle = database.child("seferler/sefer\(seferNo)").observe(.value) { snapshot in
+            guard let seferData = snapshot.value as? [String: Any],
+                  let sefer = self.parseSefer(seferData: seferData, key: seferNo) else { return }
+            DispatchQueue.main.async {
+                completion(sefer)
+            }
+        }
+        listeners[seferNo] = handle
+    }
+    
+    func removeListener(for seferNo: String) {
+        if let handle = listeners[seferNo] {
+            database.child("seferler/sefer\(seferNo)").removeObserver(withHandle: handle)
+            listeners.removeValue(forKey: seferNo)
+        }
     }
     
     func fetchSeferler() {
@@ -26,7 +46,6 @@ class SeferlerViewModel: ObservableObject {
             }
             DispatchQueue.main.async {
                 self.seferler = newSeferler
-                self.filteredSeferler = newSeferler  // Başlangıçta tüm seferleri göster
             }
         } withCancel: { error in
             print("Veri çekerken hata oluştu: \(error.localizedDescription)")
@@ -34,8 +53,6 @@ class SeferlerViewModel: ObservableObject {
     }
     
     private func parseSefer(seferData: [String: Any], key: String) -> Seferler? {
-        
-        let seferNo = key.replacingOccurrences(of: "sefer", with: "")
         guard let kalkis = seferData["kalkis"] as? String,
               let varis = seferData["varis"] as? String,
               let saatKalkis = seferData["saatKalkis"] as? String,
@@ -51,33 +68,49 @@ class SeferlerViewModel: ObservableObject {
             print("Sefer verisi eksik veya hatalı: \(seferData)")
             return nil
         }
-        
-        // Koltuk verilerini işleme
+
         let koltuklar = koltuklarData.compactMap { koltukData -> Koltuklar? in
             guard let numara = koltukData["numara"] as? Int,
                   let durumString = koltukData["durum"] as? String,
                   let durum = KoltukDurumu(rawValue: durumString) else { return nil }
-            
-            // Yolcu bilgileri ekleme
+
             let yolcuData = koltukData["yolcu"] as? [String: Any]
-            let yolcu: Yolcular? = yolcuData != nil ? Yolcular(
-                id: UUID().hashValue,
-                ad: yolcuData?["ad"] as? String ?? "",
-                soyad: yolcuData?["soyad"] as? String ?? "",
-                cinsiyet: yolcuData?["cinsiyet"] as? String ?? "",
-                email: yolcuData?["email"] as? String ?? "",
-                dogumTarihi: yolcuData?["dogumTarihi"] as? String ?? ""
-            ) : nil
-            
+            let yolcu = yolcuData.map {
+                Yolcular(
+                    id: UUID().hashValue,
+                    ad: $0["ad"] as? String ?? "",
+                    soyad: $0["soyad"] as? String ?? "",
+                    cinsiyet: $0["cinsiyet"] as? String ?? "",
+                    email: $0["email"] as? String ?? "",
+                    dogumTarihi: $0["dogumTarihi"] as? String ?? ""
+                )
+            }
+
             return Koltuklar(id: numara, numara: numara, durum: durum, yolcu: yolcu)
         }
-        
-        let seferID = Int(key) ?? 0
-        let otobus = Otobusler(firma: firma, koltukSayisi: koltukSayisi, firmaFoto: firmaFoto, koltukSira: koltukSira, koltuklar: koltuklar)
-        return Seferler(id: seferID, seferNo: seferNo, kalkis: kalkis, varis: varis, saatKalkis: saatKalkis, saatVaris: saatVaris, fiyat: Double(fiyat), tarih: tarih, otobus: otobus)
+
+        let otobus = Otobusler(
+            firma: firma,
+            koltukSayisi: koltukSayisi,
+            firmaFoto: firmaFoto,
+            koltukSira: koltukSira,
+            koltuklar: koltuklar
+        )
+
+        return Seferler(
+            id: UUID(),
+            seferNo: key.replacingOccurrences(of: "sefer", with: ""),
+            kalkis: kalkis,
+            varis: varis,
+            saatKalkis: saatKalkis,
+            saatVaris: saatVaris,
+            fiyat: Double(fiyat),
+            tarih: tarih,
+            otobus: otobus
+        )
     }
     
-    func updateKoltukDurumu(seferNo: String, koltukNo: Int, yeniDurum: KoltukDurumu, yolcu: Yolcular?) {
+    func updateKoltukDurumu(seferNo: String, koltukNo: Int, yeniDurum: KoltukDurumu, yolcu: Yolcular?, completion: @escaping (Result<Void, Error>) -> Void) {
         let firebaseKoltukNo = koltukNo - 1
         
         var koltukData: [String: Any] = [
@@ -93,11 +126,12 @@ class SeferlerViewModel: ObservableObject {
             firestore.collection("yolcular").document(userId).getDocument { (document, error) in
                 if let error = error {
                     print("Kullanıcı bilgileri alınırken hata oluştu: \(error)")
+                    completion(.failure(error))
                     return
                 }
                 
                 guard let data = document?.data() else {
-                    print("Kullanıcı verisi bulunamadı.")
+                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Kullanıcı verisi bulunamadı."])))
                     return
                 }
                 
@@ -133,6 +167,7 @@ class SeferlerViewModel: ObservableObject {
                                 self.seferler[seferIndex].otobus.koltuklar[koltukIndex].yolcu = yolcu
                             }
                         }
+                        completion(.success(()))
                     }
                 }
             }
@@ -150,16 +185,16 @@ class SeferlerViewModel: ObservableObject {
                 if let error = error {
                     print("Koltuk durumu güncellenirken hata oluştu: \(error)")
                 } else {
-                    print("Ekleme başarılı.")
+                    print("Koltuk durumu başarıyla güncellendi. Koltuk \(koltukNo)")
                     
                     DispatchQueue.main.async {
                         if let seferIndex = self.seferler.firstIndex(where: { $0.seferNo == seferNo }),
                            let koltukIndex = self.seferler[seferIndex].otobus.koltuklar.firstIndex(where: { $0.numara == koltukNo }) {
                             self.seferler[seferIndex].otobus.koltuklar[koltukIndex].durum = yeniDurum
-                            // Misafir yolcu bilgilerini ekleme
                             self.seferler[seferIndex].otobus.koltuklar[koltukIndex].yolcu = yolcu
                         }
                     }
+                    completion(.success(()))
                 }
             }
         }

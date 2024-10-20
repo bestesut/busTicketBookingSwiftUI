@@ -9,7 +9,7 @@ struct LoginView : View {
     @State private var isLoggedIn: Bool = false
     @State private var showSignupView: Bool = false
     @State private var showProfileView : Bool = false
-    @StateObject private var seferlerViewModel = SeferlerViewModel()
+    @ObservedObject private var seferlerViewModel = SeferlerViewModel()
     @ObservedObject var yolcularViewModel = YolcularViewModel()
     
     var body: some View {
@@ -28,28 +28,12 @@ struct LoginView : View {
                         // E-mail
                         TextField("Email", text: $email)
                             .autocapitalization(.none)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.secondarySystemBackground))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                            )
+                            .textFieldStyle(CustomTextFieldStyle())
                             .padding(.horizontal)
                         // Şifre
                         SecureField("Password", text: $password)
                             .autocapitalization(.none)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.secondarySystemBackground))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                            )
+                            .textFieldStyle(CustomTextFieldStyle())
                             .padding(.horizontal)
                         // Giriş butonu
                         Button(action: {
@@ -95,6 +79,7 @@ struct LoginView : View {
         .tint(.purple)
         .onReceive(yolcularViewModel.$isSignedIn) { isSignedIn in
             if isSignedIn {
+                isLoggedIn = true
                 showProfileView = true
             }
         }

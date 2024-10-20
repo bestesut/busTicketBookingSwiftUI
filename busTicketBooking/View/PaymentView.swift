@@ -12,9 +12,25 @@ struct PaymentView: View {
     @State private var errorMessage = ""
     @State private var selectedMonth = 1
     @State private var selectedYear = Calendar.current.component(.year, from: Date())
+    @State private var alertType: AlertType?
     @Environment(\.presentationMode) var presentationMode
     
-    var onPaymentSuccess: () -> Void
+    var onPaymentSuccess: () -> Void = {}
+    
+    // Alert çakışmasını önlemek için
+    enum AlertType: Identifiable {
+        case paymentSuccess
+        case error(String)
+        
+        var id: String {
+            switch self {
+            case .paymentSuccess:
+                return "paymentSuccess"
+            case .error(let message):
+                return "error-\(message)"
+            }
+        }
+    }
     
     let months = Array(1...12)
     let years = Array(Calendar.current.component(.year, from: Date())...Calendar.current.component(.year, from: Date()) + 10)
@@ -38,16 +54,22 @@ struct PaymentView: View {
                             .onReceive(Just(cardNumber)) { newValue in
                                 let filtered = newValue.filter { "0123456789".contains($0) }
                                 if filtered.count <= 16 {
-                                    self.cardNumber = filtered
+                                    self.cardNumber = formatCardNumber(filtered)
                                 } else {
                                     // Eğer 16 haneden fazla girilmeye çalışılıyorsa, sadece ilk 16 al
-                                    self.cardNumber = String(filtered.prefix(16))
+                                    self.cardNumber = formatCardNumber(String(filtered.prefix(16)))
                                 }
                             }
                         
                         TextField("Kart Sahibinin Adı", text: $cardHolderName)
                             .autocapitalization(.words)
                             .textFieldStyle(CustomTextFieldStyle())
+                            .onReceive(Just(cardHolderName)) { newValue in
+                                let filteredName = newValue.filter { $0.isLetter || $0.isWhitespace }
+                                if filteredName != newValue {
+                                    self.cardHolderName = filteredName
+                                }
+                            }
                         
                         HStack(spacing: 15) {
                             Picker("Ay", selection: $selectedMonth) {
@@ -116,15 +138,17 @@ struct PaymentView: View {
                                 .background(Color.purple.opacity(0.7))
                                 .cornerRadius(8)
                         }
-                        .alert(isPresented: $isPaymentSuccessful) {
-                            Alert(title: Text("Başarılı!"), message: Text("Ödemeniz başarıyla gerçekleştirildi."), dismissButton: .default(Text("Tamam")) {
-                                onPaymentSuccess()
-                                presentationMode.wrappedValue.dismiss()
-                            })
-                        }
-                        .alert(isPresented: $showError) {
-                            Alert(title: Text("Hata"), message: Text(errorMessage), dismissButton: .default(Text("Tamam")))
-                        }
+                        .alert(item: $alertType) { alertType in
+                                switch alertType {
+                                case .paymentSuccess:
+                                    return Alert(title: Text("Başarılı!"), message: Text("Ödemeniz başarıyla gerçekleştirildi."), dismissButton: .default(Text("Tamam")) {
+                                        onPaymentSuccess()
+                                        presentationMode.wrappedValue.dismiss()
+                                    })
+                                case .error(let message):
+                                    return Alert(title: Text("Hata"), message: Text(message), dismissButton: .default(Text("Tamam")))
+                                }
+                            }
                         
                         Spacer()
                     }
@@ -135,25 +159,32 @@ struct PaymentView: View {
         }
     }
     
+    func formatCardNumber(_ number: String) -> String {
+        var formatted = ""
+        for (index, char) in number.enumerated() {
+            if index > 0 && index % 4 == 0 {
+                formatted += "-"
+            }
+            formatted += String(char)
+        }
+        return formatted
+    }
+    
     func isValidExpiryDate() -> Bool {
         let currentYear = Calendar.current.component(.year, from: Date())
         let currentMonth = Calendar.current.component(.month, from: Date())
         
-        if selectedYear > currentYear || (selectedYear == currentYear && selectedMonth >= currentMonth) {
-            return true
-        }
-        return false
+        return selectedYear > currentYear || (selectedYear == currentYear && selectedMonth >= currentMonth)
     }
     
     func processPayment() {
         if !isValidExpiryDate() {
-            errorMessage = "Son kullanma tarihi geçmiş bir kart kullanılamaz."
-            showError = true
+            alertType = .error("Son kullanma tarihi geçmiş bir kart kullanılamaz.")
             return
         }
         if validatePaymentDetails() {
             isPaymentSuccessful = true
-            onPaymentSuccess()
+            alertType = .paymentSuccess
         }
     }
     
@@ -179,8 +210,6 @@ struct PaymentView: View {
 
 struct PaymentView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentView(amount: 500.00) {
-            print("Ödeme başarılı")
-        }
+        PaymentView(amount: 500.00)
     }
 }

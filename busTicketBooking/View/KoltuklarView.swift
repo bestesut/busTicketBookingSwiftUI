@@ -1,26 +1,20 @@
-import Foundation
 import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
 
-struct KoltuklarView : View {
-    @State private var selectedSeat: Koltuklar?
-    @StateObject private var seferlerViewModel = SeferlerViewModel()
+struct KoltuklarView: View {
+    @ObservedObject var seferlerViewModel: SeferlerViewModel
     @State var sefer: Seferler
+    @State private var selectedSeat: Koltuklar?
     @State private var showPaymentView = false
     @State private var showUserInfoView = false
     @State private var isUserLoggedIn = false
-    
-    init(sefer: Seferler, seferlerViewModel: SeferlerViewModel) {
-        _sefer = State(initialValue: sefer)
-        _seferlerViewModel = StateObject(wrappedValue: seferlerViewModel)
-    }
-    
+    @State private var isLoading = false
+
     var body: some View {
         ZStack {
-            Color.blue
-                .opacity(0.2)
-                .ignoresSafeArea()
+            Color.blue.opacity(0.2).ignoresSafeArea()
+            
             VStack {
                 Text("\(sefer.otobus.firma) - Koltuklar")
                     .font(.headline)
@@ -28,20 +22,18 @@ struct KoltuklarView : View {
                 LazyVGrid(columns: Array(repeating: .init(.flexible()), count: sefer.otobus.koltukSira)) {
                     ForEach(sefer.otobus.koltuklar) { koltuk in
                         Button(action: {
-                            if selectedSeat?.id == koltuk.id {
-                                selectedSeat = nil
-                            } else {
-                                selectedSeat = koltuk
-                            }
+                            selectedSeat = selectedSeat?.id == koltuk.id ? nil : koltuk
                         }) {
                             Text("\(koltuk.numara)")
                                 .frame(width: 50, height: 50)
-                                .background(koltuk.durum == .bos ? (selectedSeat?.id == koltuk.id ? Color.yellow : Color.green) : Color.red)
+                                .background(koltukColor(for: koltuk))
                                 .foregroundColor(.white)
                                 .cornerRadius(5)
                         }
+                        .disabled(koltuk.durum == .dolu)
                     }
                 }
+                
                 Button(action: {
                     if selectedSeat != nil {
                         if isUserLoggedIn {
@@ -61,46 +53,73 @@ struct KoltuklarView : View {
                 .padding()
             }
             .padding()
-            .onAppear {
-                if let guncelSefer = seferlerViewModel.seferler.first(where: { $0.seferNo == sefer.seferNo }) {
-                    self.sefer = guncelSefer
+            .overlay(
+                Group {
+                    if isLoading {
+                        Color.black.opacity(0.3)
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(2)
+                    }
                 }
+            )
+            .onAppear {
                 isUserLoggedIn = Auth.auth().currentUser != nil
+                seferlerViewModel.addListener(for: sefer.seferNo) { updatedSefer in
+                    self.sefer = updatedSefer
+                }
+            }
+            .onDisappear {
+                seferlerViewModel.removeListener(for: sefer.seferNo)
             }
             .sheet(isPresented: $showPaymentView) {
                 PaymentView(amount: sefer.fiyat, onPaymentSuccess: handleSuccessfulPayment)
             }
             .navigationDestination(isPresented: $showUserInfoView) {
-                UserInfoPaymentView(amount: sefer.fiyat, onPaymentSuccess: handleSuccessfulPayment, onUserInfoEntered: { yolcu in
-                    self.handleUserInfoEntered(yolcu: yolcu)
-                })
+                UserInfoPaymentView(amount: sefer.fiyat, onPaymentSuccess: handleSuccessfulPayment, onUserInfoEntered: handleUserInfoEntered)
             }
         }
     }
     
-    func handleUserInfoEntered(yolcu: Yolcular) {
-        // Koltuk seçimi yapıldıysa, yolcu bilgisini güncelle
-        if let selectedSeat = selectedSeat {
-            // Seçili koltuğun bilgilerini güncelle
-            if let index = sefer.otobus.koltuklar.firstIndex(where: { $0.id == selectedSeat.id }) {
-                sefer.otobus.koltuklar[index].yolcu = yolcu
-            }
+    private func koltukColor(for koltuk: Koltuklar) -> Color {
+        if koltuk.durum == .dolu {
+            return .red
+        } else if selectedSeat?.id == koltuk.id {
+            return .yellow
+        } else {
+            return .green
         }
     }
     
-    func handleSuccessfulPayment() {
+    private func handleUserInfoEntered(yolcu: Yolcular) {
         if let selectedSeat = selectedSeat,
            let index = sefer.otobus.koltuklar.firstIndex(where: { $0.id == selectedSeat.id }) {
-            sefer.otobus.koltuklar[index].durum = .dolu
-            seferlerViewModel.updateKoltukDurumu(seferNo: sefer.seferNo, koltukNo: selectedSeat.numara, yeniDurum: .dolu, yolcu: sefer.otobus.koltuklar[index].yolcu)
-            self.selectedSeat = nil
-            if let guncelSefer = seferlerViewModel.seferler.first(where: { $0.seferNo == sefer.seferNo }) {
-                self.sefer = guncelSefer
+            sefer.otobus.koltuklar[index].yolcu = yolcu
+        }
+    }
+    
+    private func handleSuccessfulPayment() {
+        isLoading = true
+        if let selectedSeat = selectedSeat {
+            seferlerViewModel.updateKoltukDurumu(seferNo: sefer.seferNo,
+                                                 koltukNo: selectedSeat.numara,
+                                                 yeniDurum: .dolu,
+                                                 yolcu: selectedSeat.yolcu) { result in
+                DispatchQueue.main.async {
+                    isLoading = false
+                    switch result {
+                    case .success:
+                        self.selectedSeat = nil
+                    case .failure(let error):
+                        print("Error updating seat status: \(error.localizedDescription)")
+                    }
+                }
             }
+        } else {
+            isLoading = false
         }
     }
 }
-
 struct KoltuklarView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -110,7 +129,7 @@ struct KoltuklarView_Previews: PreviewProvider {
         mutableOtobus.koltuklar = koltuklar
         
         let sefer = Seferler(
-            id: 1,
+            id: UUID(),
             seferNo: "123",
             kalkis: "İstanbul",
             varis: "Ankara",
@@ -122,7 +141,7 @@ struct KoltuklarView_Previews: PreviewProvider {
         )
         let seferlerViewModel = SeferlerViewModel()
         seferlerViewModel.seferler = [sefer]
-        
-        return KoltuklarView(sefer: sefer, seferlerViewModel: seferlerViewModel)
+                
+        return KoltuklarView(seferlerViewModel: seferlerViewModel, sefer: sefer)
     }
 }

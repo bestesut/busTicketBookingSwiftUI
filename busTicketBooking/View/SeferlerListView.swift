@@ -20,7 +20,7 @@ struct SeferlerListView: View {
                             .font(.headline)
                     } else {
                         List(seferlerVM.filteredSeferler) { sefer in
-                            NavigationLink(destination: KoltuklarView(sefer: sefer, seferlerViewModel: seferlerVM)) {
+                            NavigationLink(destination: KoltuklarView(seferlerViewModel: seferlerVM, sefer: sefer)) {
                                 VStack(alignment: .leading) {
                                     Image(sefer.otobus.firmaFoto)
                                         .resizable()
@@ -43,8 +43,8 @@ struct SeferlerListView: View {
                 }
             }
             .onAppear {
-                print("Filtered Seferler: \(seferlerVM.filteredSeferler.count)")
-                print("All Seferler: \(seferlerVM.seferler.count)")
+//                print("Filtered Seferler: \(seferlerVM.filteredSeferler.count)")
+//                print("All Seferler: \(seferlerVM.seferler.count)")
             }
         }
     }
