@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SeferlerListView: View {
     @ObservedObject var seferlerVM: SeferlerViewModel
+    @ObservedObject var yolcularVM: YolcularViewModel
     
     var body: some View {
         NavigationStack {
@@ -20,7 +21,7 @@ struct SeferlerListView: View {
                             .font(.headline)
                     } else {
                         List(seferlerVM.filteredSeferler) { sefer in
-                            NavigationLink(destination: KoltuklarView(seferlerViewModel: seferlerVM, sefer: sefer)) {
+                            NavigationLink(destination: KoltuklarView(seferlerViewModel: seferlerVM, sefer: sefer, yolcularVM: yolcularVM)) {
                                 VStack(alignment: .leading) {
                                     Image(sefer.otobus.firmaFoto)
                                         .resizable()

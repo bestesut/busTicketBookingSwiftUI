@@ -3,7 +3,7 @@ import Foundation
 
 struct ProfileView: View {
     
-    @ObservedObject var yolcularViewModel = YolcularViewModel()
+    @ObservedObject var yolcularViewModel: YolcularViewModel
     
     var body: some View {
         ZStack {
@@ -85,5 +85,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(yolcularViewModel: YolcularViewModel())
 }

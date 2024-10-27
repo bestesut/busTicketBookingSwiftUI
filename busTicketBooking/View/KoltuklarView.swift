@@ -10,11 +10,13 @@ struct KoltuklarView: View {
     @State private var showUserInfoView = false
     @State private var isUserLoggedIn = false
     @State private var isLoading = false
+    @ObservedObject var yolcularVM: YolcularViewModel
 
     var body: some View {
         ZStack {
-            Color.blue.opacity(0.2).ignoresSafeArea()
-            
+            Color.blue
+                .opacity(0.2)
+                .ignoresSafeArea()
             VStack {
                 Text("\(sefer.otobus.firma) - Koltuklar")
                     .font(.headline)
@@ -33,7 +35,6 @@ struct KoltuklarView: View {
                         .disabled(koltuk.durum == .dolu)
                     }
                 }
-                
                 Button(action: {
                     if selectedSeat != nil {
                         if isUserLoggedIn {
@@ -73,17 +74,28 @@ struct KoltuklarView: View {
                 seferlerViewModel.removeListener(for: sefer.seferNo)
             }
             .sheet(isPresented: $showPaymentView) {
-                PaymentView(amount: sefer.fiyat, onPaymentSuccess: handleSuccessfulPayment)
+                PaymentView(yolcularVM: yolcularVM, sefer: sefer, amount: sefer.fiyat, selectedSeatNumber: selectedSeat?.numara ?? 0, onPaymentSuccess: handleSuccessfulPayment)
             }
             .navigationDestination(isPresented: $showUserInfoView) {
-                UserInfoPaymentView(amount: sefer.fiyat, onPaymentSuccess: handleSuccessfulPayment, onUserInfoEntered: handleUserInfoEntered)
+                UserInfoView(amount: sefer.fiyat, selectedSeatNumber: selectedSeat?.numara ?? 0, onPaymentSuccess: handleSuccessfulPayment, onUserInfoEntered: handleUserInfoEntered, sefer: sefer, yolcularVM: yolcularVM)
             }
         }
     }
     
     private func koltukColor(for koltuk: Koltuklar) -> Color {
         if koltuk.durum == .dolu {
-            return .red
+            if let yolcu = koltuk.yolcu {  // Yolcu bilgisi varsa kontrol et
+                switch yolcu.cinsiyet.lowercased() {
+                case "kadın":
+                    return .purple
+                case "erkek":
+                    return .blue
+                default:
+                    return .red
+                }
+            } else {
+                return .red
+            }
         } else if selectedSeat?.id == koltuk.id {
             return .yellow
         } else {
@@ -92,9 +104,10 @@ struct KoltuklarView: View {
     }
     
     private func handleUserInfoEntered(yolcu: Yolcular) {
-        if let selectedSeat = selectedSeat,
-           let index = sefer.otobus.koltuklar.firstIndex(where: { $0.id == selectedSeat.id }) {
-            sefer.otobus.koltuklar[index].yolcu = yolcu
+        if var seat = selectedSeat,
+           let _ = sefer.otobus.koltuklar.firstIndex(where: { $0.id == seat.id }) {
+            seat.yolcu = yolcu
+            self.selectedSeat = seat  // Güncellenmiş seat'i yeniden atadım
         }
     }
     
@@ -120,6 +133,7 @@ struct KoltuklarView: View {
         }
     }
 }
+
 struct KoltuklarView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -142,6 +156,6 @@ struct KoltuklarView_Previews: PreviewProvider {
         let seferlerViewModel = SeferlerViewModel()
         seferlerViewModel.seferler = [sefer]
                 
-        return KoltuklarView(seferlerViewModel: seferlerViewModel, sefer: sefer)
+        return KoltuklarView(seferlerViewModel: seferlerViewModel, sefer: sefer, yolcularVM: YolcularViewModel())
     }
 }

@@ -6,16 +6,14 @@ struct LoginView : View {
     
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var isLoggedIn: Bool = false
-    @State private var showSignupView: Bool = false
     @State private var showProfileView : Bool = false
     @ObservedObject private var seferlerViewModel = SeferlerViewModel()
-    @ObservedObject var yolcularViewModel = YolcularViewModel()
+    @StateObject var yolcularViewModel = YolcularViewModel()
     
     var body: some View {
         NavigationStack {
-            if isLoggedIn {
-                AccountView()
+            if yolcularViewModel.isSignedIn {
+                AccountView(yolcularViewModel: yolcularViewModel)
             } else {
                 ZStack {
                     Color.purple
@@ -47,7 +45,7 @@ struct LoginView : View {
                                 .cornerRadius(8)
                         }
                         .navigationDestination(isPresented: $showProfileView) {
-                            AccountView()
+                            AccountView(yolcularViewModel: yolcularViewModel)
                         }
                         .alert(isPresented: .init(get: {
                             yolcularViewModel.errorMessage != nil
@@ -56,7 +54,9 @@ struct LoginView : View {
                                 yolcularViewModel.errorMessage = nil
                             }
                         })) {
-                            Alert(title: Text("Hata!"), message: Text(yolcularViewModel.errorMessage ?? "Bir hata oluştu."), dismissButton: .default(Text("Tamam")))
+                            Alert(title: Text("Hata!"), message: Text(yolcularViewModel.errorMessage ?? "Bir hata oluştu."), dismissButton: .default(Text("Tamam"), action : {
+                                yolcularViewModel.errorMessage = nil
+                            }))
                         }
                         .padding(.horizontal)
                         Text("Hala hesabın yok mu?")
@@ -74,13 +74,6 @@ struct LoginView : View {
                         .padding(.horizontal)
                     }
                 }
-            }
-        }
-        .tint(.purple)
-        .onReceive(yolcularViewModel.$isSignedIn) { isSignedIn in
-            if isSignedIn {
-                isLoggedIn = true
-                showProfileView = true
             }
         }
     }

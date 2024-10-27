@@ -11,8 +11,8 @@ class SeferlerViewModel: ObservableObject {
     
     init() {
         database = Database.database().reference()
-//        addDummyData(koltukSayisi: 40, kalkis: "İstanbul", varis: "Ankara", saatKalkis: "07.00", saatVaris: "15.00", tarih: "19.10.2024", fiyat: 700, seferNo: "1", firma: "Kamil Koç", firmaFoto: "kamilkoc", koltukSira: 4)
-//        addDummyData(koltukSayisi: 30, kalkis: "Adana", varis: "Adıyaman", saatKalkis: "10.00", saatVaris: "18.00", tarih: "19.10.2024", fiyat: 900, seferNo: "2", firma: "Metro", firmaFoto: "metro", koltukSira: 3)
+//        addDummyData(koltukSayisi: 40, kalkis: "İstanbul", varis: "Ankara", saatKalkis: "07.00", saatVaris: "15.00", tarih: "27.10.2024", fiyat: 700, seferNo: "1", firma: "Kamil Koç", firmaFoto: "kamilkoc", koltukSira: 4)
+//        addDummyData(koltukSayisi: 30, kalkis: "Adana", varis: "Adıyaman", saatKalkis: "10.00", saatVaris: "18.00", tarih: "27.10.2024", fiyat: 900, seferNo: "2", firma: "Metro", firmaFoto: "metro", koltukSira: 3)
         fetchSeferler()
     }
     
@@ -85,7 +85,6 @@ class SeferlerViewModel: ObservableObject {
                     dogumTarihi: $0["dogumTarihi"] as? String ?? ""
                 )
             }
-
             return Koltuklar(id: numara, numara: numara, durum: durum, yolcu: yolcu)
         }
 
@@ -116,12 +115,10 @@ class SeferlerViewModel: ObservableObject {
         var koltukData: [String: Any] = [
             "durum": yeniDurum.rawValue
         ]
-        
         // Koltuklar altına yolcu bilgileri ekleme
         if let currentUser = Auth.auth().currentUser {
             let userId = currentUser.uid
             let firestore = Firestore.firestore()
-            
             // Kullanıcı bilgilerini Firestore'dan çek
             firestore.collection("yolcular").document(userId).getDocument { (document, error) in
                 if let error = error {
@@ -129,12 +126,10 @@ class SeferlerViewModel: ObservableObject {
                     completion(.failure(error))
                     return
                 }
-                
                 guard let data = document?.data() else {
                     completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Kullanıcı verisi bulunamadı."])))
                     return
                 }
-                
                 // Kullanıcı bilgilerini al
                 let yolcu = Yolcular(
                     id: UUID().hashValue,
@@ -144,7 +139,6 @@ class SeferlerViewModel: ObservableObject {
                     email: data["email"] as? String ?? "",
                     dogumTarihi: data["dogumTarihi"] as? String ?? ""
                 )
-                
                 // Koltuklar altına yolcu bilgilerini ekle
                 koltukData["yolcu"] = [
                     "ad": yolcu.ad.capitalized,
@@ -153,7 +147,6 @@ class SeferlerViewModel: ObservableObject {
                     "cinsiyet": yolcu.cinsiyet,
                     "email": yolcu.email
                 ]
-                
                 // Koltuk durumunu güncelle
                 self.database.child("seferler/sefer\(seferNo)/otobus/koltuklar/\(firebaseKoltukNo)").updateChildValues(koltukData) { error, _ in
                     if let error = error {
@@ -180,7 +173,6 @@ class SeferlerViewModel: ObservableObject {
                 "email": yolcu?.email ?? "",
                 "dogumTarihi": yolcu?.dogumTarihi ?? ""
             ]
-            
             database.child("seferler/sefer\(seferNo)/otobus/koltuklar/\(firebaseKoltukNo)").updateChildValues(koltukData) { error, _ in
                 if let error = error {
                     print("Koltuk durumu güncellenirken hata oluştu: \(error)")
@@ -199,7 +191,7 @@ class SeferlerViewModel: ObservableObject {
             }
         }
     }
-    
+
     func filterSeferler(from: String, to: String, date: String) -> [Seferler] {
         return seferler.filter { sefer in
             sefer.kalkis == from && sefer.varis == to && sefer.tarih == date
@@ -221,7 +213,6 @@ class SeferlerViewModel: ObservableObject {
             ]
             koltuklar.append(koltukData)
         }
-        
         let dummyData: [String: Any] = [
             "fiyat": fiyat,
             "kalkis": kalkis,
@@ -238,7 +229,6 @@ class SeferlerViewModel: ObservableObject {
                 "koltuklar": koltuklar
             ]
         ]
-        
         database.child("seferler/sefer\(seferNo)").setValue(dummyData) { (error, ref) in
             if let error = error {
                 print("Error adding dummy data: \(error)")

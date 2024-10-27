@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 import SwiftUI
 import FirebaseAuth
 
@@ -26,14 +27,14 @@ struct SignupView : View {
     @State private var selectedGender: String = ""
     @State private var dateOfBirth: Date = Date()
     @ObservedObject private var seferlerViewModel = SeferlerViewModel()
-    @ObservedObject private var yolcularViewModel = YolcularViewModel()
+    @ObservedObject var yolcularViewModel = YolcularViewModel()
     @State private var alertMessage: String = ""
     @State private var alertType: AlertType?
     
     var body: some View {
         NavigationStack {
             if yolcularViewModel.isSignedIn {
-                AccountView()
+                AccountView(yolcularViewModel: yolcularViewModel)
             } else {
                 ZStack {
                     Color.purple.opacity(0.15)
@@ -51,10 +52,22 @@ struct SignupView : View {
                         TextField("Ad", text: $name)
                             .textFieldStyle(CustomTextFieldStyle())
                             .padding(.horizontal)
+                            .onReceive(Just(name)) { newValue in
+                                let filteredName = newValue.filter { $0.isLetter || $0.isWhitespace }
+                                if filteredName != newValue {
+                                    self.name = filteredName
+                                }
+                            }
                         
                         TextField("Soyad", text: $surname)
                             .padding(.horizontal)
                             .textFieldStyle(CustomTextFieldStyle())
+                            .onReceive(Just(surname)) { newValue in
+                                let filteredSurname = newValue.filter { $0.isLetter }
+                                if filteredSurname != newValue {
+                                    self.surname = filteredSurname
+                                }
+                            }
                         
                         // Şifre alanı
                         SecureField("Parola", text: $password)
@@ -105,7 +118,7 @@ struct SignupView : View {
                                 .cornerRadius(8)
                         }
                         .navigationDestination(isPresented: $yolcularViewModel.isSignedIn) {
-                            AccountView()
+                            AccountView(yolcularViewModel: yolcularViewModel)
                         }
                         .alert(item: $alertType) { alertType in
                             switch alertType {
@@ -118,6 +131,13 @@ struct SignupView : View {
                         .onChange(of: yolcularViewModel.errorMessage) {
                             if let errorMessage = yolcularViewModel.errorMessage {
                                 alertType = .firebaseError(errorMessage)
+                            }
+                        }
+                        .onChange(of: yolcularViewModel.isSignedIn) {
+                            if yolcularViewModel.isSignedIn {
+                                withAnimation {
+                                    yolcularViewModel.fetchUserData(userId: yolcularViewModel.userID ?? "")
+                                }
                             }
                         }
                         .padding()

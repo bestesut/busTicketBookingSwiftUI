@@ -12,7 +12,6 @@ struct BiletAraView : View {
     @StateObject private var yolcularViewModel = YolcularViewModel()
     
     var body: some View {
-        
         TabView {
             NavigationStack {
                 ZStack {
@@ -92,7 +91,7 @@ struct BiletAraView : View {
                         .padding(.bottom, 200)
                         .padding()
                         .navigationDestination(isPresented: $showSeferlerListView) {
-                            SeferlerListView(seferlerVM: seferlerViewModel)
+                            SeferlerListView(seferlerVM: seferlerViewModel, yolcularVM: yolcularViewModel)
                         }
                         .alert(isPresented: $showAlert) {
                             Alert(title: Text("Error!"), message: Text("Invalid input. Ensure all fields are correctly filled."), dismissButton: .default(Text("OK")))
@@ -116,7 +115,6 @@ struct BiletAraView : View {
                 Text("Ara")
                     .foregroundStyle(.purple)
             }
-            
             NavigationStack {
                 LoginView(yolcularViewModel: yolcularViewModel)
             }
@@ -124,7 +122,6 @@ struct BiletAraView : View {
                 Image(systemName: "person")
                 Text("Hesabım")
             }
-            
             .tint(.purple)
         }
     }
